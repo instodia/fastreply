@@ -7,8 +7,6 @@
  */
 
 import Link from "next/link";
-import Image from "next/image";
-import { zernioLink } from "@/lib/zernio-links";
 import { usePathname } from "next/navigation";
 
 const navItems = [
@@ -59,7 +57,7 @@ export default function Sidebar({
           style={{ paddingTop: "calc(1.25rem + env(safe-area-inset-top))" }}
         >
           <Link href="/dashboard" className="text-base font-semibold">
-            OpenReply
+            FastReply
           </Link>
         </div>
 
@@ -91,21 +89,6 @@ export default function Sidebar({
         <div className="px-5 py-4 border-t border-border">
           <p className="text-sm text-foreground truncate">{workspaceName}</p>
           <p className="text-xs text-muted">Self-hosted</p>
-          <a
-            href={zernioLink({ placement: "sidebar" })}
-            target="_blank"
-            rel="sponsored noopener noreferrer"
-            className="mt-4 flex items-center gap-3 text-xs text-muted hover:text-foreground"
-          >
-            <span>Supported by</span>
-            <Image
-              src="/brand/zernio-primary.svg"
-              alt="Zernio"
-              width={64}
-              height={20}
-              className="m-2"
-            />
-          </a>
         </div>
       </aside>
     </>

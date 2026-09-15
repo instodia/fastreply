@@ -50,16 +50,16 @@ export function ZernioConnection({ canManage }: { canManage: boolean }) {
     <section className="zernio-sponsor rounded-xl border p-5 sm:p-6" aria-labelledby="zernio-heading">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div><h2 id="zernio-heading" className="text-base font-semibold">Easier Instagram setup</h2><p className="mt-1 text-sm">Optional connection provider</p></div>
-        <a href={zernioLink({ placement: 'settings-logo' })} target="_blank" rel="noopener noreferrer" aria-label="Zernio, OpenReply sponsor"><Image src="/brand/zernio-primary.svg" alt="Zernio" width={106} height={32} className="h-auto" /></a>
+        <a href={zernioLink({ placement: 'settings-logo' })} target="_blank" rel="noopener noreferrer" aria-label="Zernio connection provider"><Image src="/brand/zernio-primary.svg" alt="Zernio" width={106} height={32} className="h-auto" /></a>
       </div>
-      <p className="mt-4 text-sm leading-6">Connect Instagram without creating your own Meta developer app. Zernio is a paid service and an OpenReply sponsor. Your campaigns and hosting stay in OpenReply.</p>
+      <p className="mt-4 text-sm leading-6">Connect Instagram without creating your own Meta developer app. Your campaigns and hosting stay in FastReply.</p>
       <p className="mt-2 flex flex-wrap gap-x-4 gap-y-2 text-sm"><a className="underline underline-offset-4" href={zernioLink({ path: '/signup', placement: 'settings-signup' })} target="_blank" rel="noopener noreferrer">Get a Zernio API key</a><a className="underline underline-offset-4" href={zernioLink({ path: '/pricing', placement: 'settings-pricing' })} target="_blank" rel="noopener noreferrer">View pricing</a></p>
       {!canManage ? <p className="mt-4 text-sm">Ask your workspace owner or admin to configure Zernio.</p> : <>
         {error && <p role="alert" className="mt-4 rounded border border-error/30 bg-white p-3 text-sm text-error">{error}</p>}
         {!data?.configured ? <form className="mt-5 space-y-3" onSubmit={e => { e.preventDefault(); void act({ method: 'POST', body: { apiKey } }); }}>
           <label className="block text-sm font-medium" htmlFor="zernio-api-key">Zernio API key</label>
           <input id="zernio-api-key" type="password" autoComplete="off" value={apiKey} onChange={e => setApiKey(e.target.value)} required className="w-full rounded-lg border border-zernio-border bg-white px-3 py-2 text-sm" />
-          <p className="text-xs leading-5">Use an unrestricted, read-write key with Inbox access. OpenReply registers a webhook for this workspace. The key is encrypted and never shown again.</p>
+          <p className="text-xs leading-5">Use an unrestricted, read-write key with Inbox access. FastReply registers a webhook for this workspace. The key is encrypted and never shown again.</p>
           <button disabled={busy || !apiKey} className="zernio-action rounded-xl px-4 py-3 text-sm font-medium disabled:opacity-50">{busy ? 'Saving…' : 'Save API key'}</button>
         </form> : <div className="mt-5 space-y-4">
           <p className="text-sm">API key saved securely.</p>
@@ -70,12 +70,12 @@ export function ZernioConnection({ canManage }: { canManage: boolean }) {
             <button disabled={busy || !profileId} className="zernio-action rounded-xl px-4 py-3 text-sm font-medium disabled:opacity-50">{busy ? 'Configuring…' : data.webhookReady && profileId === data.profileId ? 'Repair webhook connection' : 'Save profile and configure webhook'}</button>
           </form>
           {data.webhookReady && <div className="space-y-3 border-t border-zernio-border pt-4">
-            <p className="text-sm">Webhook configured. Choose an Instagram account for OpenReply:</p>
-            {data.accounts.map(a => <div key={a.id} className="flex flex-wrap items-center justify-between gap-3 text-sm"><span>@{a.username}</span><button disabled={busy || a.connected} onClick={() => void act({ path: 'accounts', method: 'POST', body: { accountId: a.id } })} className="rounded-lg border border-zernio-border bg-white px-3 py-2 disabled:opacity-50">{a.connected ? 'Connected' : 'Use in OpenReply'}</button></div>)}
+            <p className="text-sm">Webhook configured. Choose an Instagram account for FastReply:</p>
+            {data.accounts.map(a => <div key={a.id} className="flex flex-wrap items-center justify-between gap-3 text-sm"><span>@{a.username}</span><button disabled={busy || a.connected} onClick={() => void act({ path: 'accounts', method: 'POST', body: { accountId: a.id } })} className="rounded-lg border border-zernio-border bg-white px-3 py-2 disabled:opacity-50">{a.connected ? 'Connected' : 'Use in FastReply'}</button></div>)}
             <button disabled={busy} onClick={() => void act({ path: 'connect', method: 'POST' })} className="rounded-lg border border-zernio-border bg-white px-3 py-2 text-sm disabled:opacity-50">Connect another Instagram account</button>
-            <p className="text-xs leading-5">After connecting Instagram, return here and select it for OpenReply. Keep Zernio automations off for these campaigns to avoid sending twice.</p>
+            <p className="text-xs leading-5">After connecting Instagram, return here and select it for FastReply. Keep Zernio automations off for these campaigns to avoid sending twice.</p>
           </div>}
-          <button disabled={busy} onClick={() => { if (confirm('Remove the Zernio key and this OpenReply webhook? Disconnect its Instagram accounts from OpenReply first.')) void act({ method: 'DELETE' }); }} className="text-xs underline underline-offset-4 disabled:opacity-50">Remove Zernio connection</button>
+          <button disabled={busy} onClick={() => { if (confirm('Remove the Zernio key and this FastReply webhook? Disconnect its Instagram accounts from FastReply first.')) void act({ method: 'DELETE' }); }} className="text-xs underline underline-offset-4 disabled:opacity-50">Remove Zernio connection</button>
         </div>}
       </>}
     </section>

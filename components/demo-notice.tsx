@@ -3,9 +3,7 @@
 import { useSyncExternalStore } from "react";
 import { DEMO_HOST } from "@/lib/env";
 
-const DISMISS_KEY = "openreply:demo-notice-dismissed";
-const SETUP_DOCS_URL =
-  "https://github.com/diwenne/openreply/blob/main/docs/setup.md";
+const DISMISS_KEY = "fastreply:demo-notice-dismissed";
 
 /// Module-level so both variants agree, and so dismissing survives a
 /// client-side navigation between the landing page and the login page.
@@ -66,17 +64,8 @@ export function DemoNotice({ variant }: { variant: "banner" | "panel" }) {
       <div className="relative border-b border-orange-200 bg-orange-50">
         <p className="mx-auto w-full max-w-6xl px-10 py-2 text-center text-xs leading-5 text-zinc-700 sm:px-14 sm:text-sm">
           <span className="font-bold text-zinc-900">{DEMO_HOST}</span> is a
-          demo. OpenReply is self-hosted — signing in here will not send DMs for
-          your account.{" "}
-          <a
-            href={SETUP_DOCS_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="font-bold text-orange-700 underline underline-offset-2 transition hover:text-orange-800"
-          >
-            Deploy your own copy
-          </a>
-          .
+          demo. FastReply is self-hosted — signing in here will not send DMs for
+          your account.
         </p>
         <button
           type="button"
@@ -94,18 +83,9 @@ export function DemoNotice({ variant }: { variant: "banner" | "panel" }) {
     <div className="relative mb-5 rounded border border-warning/30 bg-warning/10 px-4 py-3 pr-10">
       <p className="text-sm leading-6 text-foreground">
         <span className="font-semibold">{DEMO_HOST} is a demo instance.</span>{" "}
-        Signing in here will not send DMs for your Instagram account. OpenReply
+        Signing in here will not send DMs for your Instagram account. FastReply
         is self-hosted, so it only works on a deployment you run yourself, with
-        your own Meta app and your own domain.{" "}
-        <a
-          href={SETUP_DOCS_URL}
-          target="_blank"
-          rel="noreferrer"
-          className="font-semibold text-warning underline underline-offset-2"
-        >
-          Read the setup guide
-        </a>
-        .
+        your own Meta app and your own domain.
       </p>
       <button
         type="button"

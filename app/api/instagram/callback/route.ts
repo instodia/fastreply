@@ -15,7 +15,9 @@ export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get("code");
   const error = request.nextUrl.searchParams.get("error");
   const state = verifyOAuthState(request.nextUrl.searchParams.get("state"));
-  const baseUrl = getBaseUrl();
+  const host = request.headers.get("x-forwarded-host") ?? request.headers.get("host");
+  const proto = request.headers.get("x-forwarded-proto") ?? (host?.includes("localhost") ? "http" : "https");
+  const baseUrl = host ? `${proto}://${host}` : getBaseUrl();
 
   if (error) {
     return NextResponse.redirect(`${baseUrl}/settings?instagram=denied`);

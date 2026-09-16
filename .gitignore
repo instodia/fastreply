@@ -43,3 +43,8 @@ next-env.d.ts
 
 /app/generated/prisma
 .gstack/
+
+# markdown files (only README.md is included)
+*.md
+!README.md
+docs/

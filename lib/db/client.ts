@@ -1,3 +1,4 @@
+import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@/app/generated/prisma/client";
 
@@ -11,8 +12,15 @@ function createPrismaClient() {
     throw new Error("DATABASE_URL environment variable is required");
   }
 
+  const pool = new Pool({
+    connectionString: databaseUrl,
+    ssl: databaseUrl.includes("render.com") || databaseUrl.includes("sslmode=require")
+      ? { rejectUnauthorized: false }
+      : undefined,
+  });
+
   return new PrismaClient({
-    adapter: new PrismaPg(databaseUrl),
+    adapter: new PrismaPg(pool),
   });
 }
 

@@ -95,8 +95,10 @@ export default function CampaignsPage() {
         `/api/automations${params.size ? `?${params}` : ""}`,
         { cache: "no-store" }
       );
-      const data = await res.json();
-      if (data.success) setAutomations(data.data);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) setAutomations(data.data);
+      }
     } catch (err) {
       console.error("Failed to fetch campaigns:", err);
     } finally {
@@ -106,11 +108,14 @@ export default function CampaignsPage() {
 
   useEffect(() => {
     fetch("/api/dashboard/stats")
-      .then((res) => res.json())
-      .then((payload) => {
-        if (payload.success) setAccounts(payload.data.instagramAccounts ?? []);
+      .then(async (res) => {
+        if (!res.ok) return null;
+        return res.json();
       })
-      .catch(console.error);
+      .then((payload) => {
+        if (payload?.success) setAccounts(payload.data.instagramAccounts ?? []);
+      })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -146,9 +151,12 @@ export default function CampaignsPage() {
     Promise.all(
       accountIds.map((accountId) =>
         fetch(`/api/instagram/posts?instagramAccountId=${accountId}&limit=50`)
-          .then((res) => res.json())
+          .then(async (res) => {
+            if (!res.ok) return null;
+            return res.json();
+          })
           .then((payload) =>
-            payload.success
+            payload?.success
               ? (payload.data as {
                   id: string;
                   media_type?: string;
